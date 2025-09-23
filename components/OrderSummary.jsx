@@ -40,46 +40,45 @@ const OrderSummary = ({ totalPrice, items }) => {
         } catch (error) {
             toast.error(error?.response?.data?.error || error.message)
         }
-        
     }
 
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
         try {
-           if(!user){
-            return toast('Please login to place an order')
-           } 
+            if(!user){
+                return toast('Please login to place an order')
+            } 
             if(!selectedAddress){
-            return toast('Please select an address')
-           } 
-           const token = await getToken();
+                return toast('Please select an address')
+            } 
+            const token = await getToken();
 
-           const orderData = {
-            addressId: selectedAddress.id,
-            items,
-            paymentMethod
-           }
+            const orderData = {
+                addressId: selectedAddress.id,
+                items,
+                paymentMethod
+            }
 
-           if(coupon){
-            orderData.couponCode = coupon.code
-           }
-           // create order
-           const {data} = await axios.post('/api/orders', orderData, {
-            headers: { Authorization: `Bearer ${token}` }
-           })
+            if(coupon){
+                orderData.couponCode = coupon.code
+            }
+            // create order
+            const {data} = await axios.post('/api/orders', orderData, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
 
-           if(paymentMethod === 'STRIPE'){
-            window.location.href = data.session.url;
-           }else{
-            toast.success(data.message)
-            router.push('/orders')
-            dispatch(fetchCart({getToken}))
-
-           }
+            if(paymentMethod === 'STRIPE'){
+                window.location.href = data.session.url;
+            } else {
+                toast.success(data.message)
+                router.push('/orders')
+                dispatch(fetchCart({getToken}))
+            }
 
         } catch (error) {
             toast.error(error?.response?.data?.error || error.message)      
-    }
+        }
+    }   
 
     return (
         <div className='w-full max-w-lg lg:max-w-[340px] bg-slate-50/30 border border-slate-200 text-slate-500 text-sm rounded-xl p-7'>
@@ -154,7 +153,7 @@ const OrderSummary = ({ totalPrice, items }) => {
                     <Protect plan={'plus'} fallback={`${currency}${coupon ? (totalPrice + 5 - (coupon.discount / 100 * totalPrice)).toFixed(2) : (totalPrice + 5).toLocaleString()}`}>           
                     {currency}{coupon ? (totalPrice - (coupon.discount / 100 * totalPrice)).toFixed(2) : totalPrice.toLocaleString()}
                     </Protect>             
-                    </p>
+                </p>
             </div>
             <button onClick={e => toast.promise(handlePlaceOrder(e), { loading: 'placing Order...' })} className='w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all'>Place Order</button>
 
@@ -164,4 +163,4 @@ const OrderSummary = ({ totalPrice, items }) => {
     )
 }
 
-export default OrderSummary
+export default OrderSummary;
