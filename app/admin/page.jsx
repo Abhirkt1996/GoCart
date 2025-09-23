@@ -1,10 +1,9 @@
 'use client'
-import { dummyAdminDashboardData } from "@/assets/assets"
 import Loading from "@/components/Loading"
 import OrdersAreaChart from "@/components/OrdersAreaChart"
 import { useAuth } from "@clerk/nextjs"
+import axios from "axios"
 import { CircleDollarSignIcon, ShoppingBasketIcon, StoreIcon, TagsIcon } from "lucide-react"
-// import { headers } from "next/headers"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 

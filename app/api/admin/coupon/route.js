@@ -68,7 +68,7 @@ export async function GET(request){
          if(!isAdmin){
             return NextResponse.json({ error: 'not authorized' }, { status: 401 })
          } 
-         const coupon = await prisma.coupon.findMany({})
+         const coupons = await prisma.coupon.findMany({})
          return NextResponse.json({ coupons })
     } catch (error) {
      console.error(error);
