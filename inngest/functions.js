@@ -48,7 +48,7 @@ import prisma from "@/lib/prisma";
  )
 
  // Inngest Function to delete coupon on expiry
- export const deleteCoupobOnExpiry = inngest.createFunction(
+ export const deleteCouponOnExpiry = inngest.createFunction(
     {id: 'delete-coupon-on-expiry'},
     { event: 'app/coupon.expired' },
     async ({ event, step }) => {
